@@ -1,0 +1,60 @@
+.merge-status-list {
+    max-height: 80vh !important;
+}
+
+.merge-status-item:hover {
+    background: rgba(100, 100, 100, 0.3);
+}
+
+.merge-status-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+
+    /* hack to get the browser to update the style of the element often */
+    animation: 1s infinite alternate dummy_animation;
+}
+
+
+.merge-status-item:has(> .merge-status-icon > .octicon-x)::before, 
+.ActionListContent:has(> .ActionListItem-visual > span > div > .octicon-x-circle-fill) {
+    background: rgba(255, 0, 0, 0.2);
+}
+
+.merge-status-item:has(> .merge-status-icon > .octicon-check)::before {
+    background: rgba(188, 255, 205, .2);
+}
+
+.merge-status-item:has(> .merge-status-icon > .hx_dot-fill-pending-icon)::before, 
+.ActionListContent:has(> .ActionListItem-visual > span > div > .hx_dot-fill-pending-icon) {
+    background: rgba(134, 78, 6, .2);
+}
+
+.merge-status-item:has(> .merge-status-icon > * > .anim-rotate)::before,
+.ActionListContent:has(> .ActionListItem-visual > span > div >  * > .anim-rotate) {
+    background: rgba(255, 170, 0, 0.2);
+}
+
+
+/* sort depending on status */
+.merge-status-list, .ActionListWrap {
+    display: flex;
+    flex-direction: column-reverse;
+}
+.merge-status-item                                                       { order: 5; }
+.merge-status-item:has(> .merge-status-icon > .octicon-check)            { order: 4; }
+.merge-status-item:has(> .merge-status-icon > .hx_dot-fill-pending-icon) { order: 3; }
+.merge-status-item:has(> .merge-status-icon > * > .anim-rotate)          { order: 2; }
+.merge-status-item:has(> .merge-status-icon > .octicon-x)                { order: 1; }
+
+.ActionListItem                                                                                              { order: 0; }
+.ActionListItem:has(> .ActionListContent > .ActionListItem-visual > span > div > .octicon-check-circle-fill) { order: 1; }
+.ActionListItem:has(> .ActionListContent > .ActionListItem-visual > span > div > .hx_dot-fill-pending-icon)  { order: 2; }
+.ActionListItem:has(> .ActionListContent > .ActionListItem-visual > span > div > * > .anim-rotate)           { order: 3; }
+.ActionListItem:has(> .ActionListContent > .ActionListItem-visual > span > div > .octicon-x-circle-fill)     { order: 4; }
+
+
