@@ -2,8 +2,7 @@
   "manifest_version": 2,
   "name": "Better Github CI colors",
   "version": "1.0",
-  "description": "Color and sort Github CI jobs based on their status. E.g., failed jobs are red in the start of the list.",
-  "homepage_url": "https://churney.io",
+  "description": "Color and sort Github CI jobs based on their status. I.e., failed jobs are red and in the start of the list.",
   "content_scripts": [
     {
       "matches": ["*://github.com/*"],
@@ -11,8 +10,6 @@
     }
   ],
   "permissions": ["activeTab", "tabs"],
-  "web_accessible_resources": [
-    "better-github-ci.css"
-  ]
+  "web_accessible_resources": ["better-github-ci.css"]
 }
 
