@@ -1,0 +1,65 @@
+name: "Publish"
+on:
+  release:
+    types: [published]
+
+jobs:
+  sign:
+    name: "Release"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "web-ext lint"
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: lint
+          source: .
+          channel: listed
+
+      - name: "web-ext build"
+        id: web-ext-build
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: build
+          source: .
+
+      - name: "Collect sources"
+        run: git archive --format=zip --output=sources.zip ${{ github.ref }}
+
+      - name: "Collect metadata"
+        id: metadata
+        run: echo "json=$(jq -c . < amo_metadata.json)" >> $GITHUB_OUTPUT
+
+      - name: "web-ext sign AMO"
+        id: web-ext-sign
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: sign
+
+          # Various metadata you can set through the API. See the documentation for the
+          # --amo-metadata parameter to web-ext sign at
+          # https://extensionworkshop.com/documentation/develop/web-ext-command-reference/#web-ext-sign
+          # for more information. You can leave out metaDataFile if all you want to set is approval
+          # notes, release notes, or a license.
+          metaDataFile: amo_metadata.json
+          releaseNotes: ${{ github.event.release.body }}
+
+          # You can set one of the known licenses from
+          # https://mozilla.github.io/addons-server/topics/api/licenses.html#license-list
+          # by just passing the license property. If you have a custom license, read it from a
+          # file as follows.
+          license: MIT
+
+          # Specify API secrets. No need to specify apiUrlPrefix, it defaults to AMO production
+          apiKey: ${{ secrets.AMO_SIGN_KEY }}
+          apiSecret: ${{ secrets.AMO_SIGN_SECRET }}
+          timeout: 900000
+
+      - name: "Attach release assets to release"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} \
+            ${{ steps.web-ext-sign.outputs.target }}

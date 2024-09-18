@@ -1,0 +1,11 @@
+{
+    "summary": {
+        "en-US": "Color and sort Github CI jobs based on their status. I.e., failed jobs are red and in the start of the list."
+    },
+    "categories": [
+        "appearance"
+    ],
+    "version": {
+        "license": "MIT"
+    }
+}
