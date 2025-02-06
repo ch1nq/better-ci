@@ -13,6 +13,8 @@ An extension the improves visual clarity in GitHub actions. No more squinting yo
 
 ## Installation
 
+You need to enable the "old" merge experience in GitHub
+
 ### Firefox extension 
 You can use the [official firefox extension](https://addons.mozilla.org/en-US/firefox/addon/better-github-ci-colors1/) built from this repo
 
