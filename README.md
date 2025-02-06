@@ -1,5 +1,5 @@
 # Better Github CI colors
-An extension the improves visual clarity in GitHub actions (
+An extension the improves visual clarity in GitHub actions
 
 - ✅ Bigger CI container
 - 🖌️ Colored by status
